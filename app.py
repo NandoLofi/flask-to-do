@@ -1,4 +1,6 @@
-from flask import Flask, render_template
+from crypt import methods
+from urllib import request
+from flask import Flask, render_template, request, redirect, url_for
 import os
 from flask_sqlalchemy import SQLAlchemy
 
@@ -18,6 +20,17 @@ def index():
     todo_list = To_Do.query.all()
     print(todo_list)
     return render_template('base.html', todo_list = todo_list)
+
+@app.route('/add', methods=["POST"])
+def add():
+    title = request.form.get("title")
+    new_todo = To_Do(
+        title=title, 
+        complete=False
+    )
+    db.session.add(new_todo)
+    db.session.commit()
+    return redirect(url_for("index"))
 
 if __name__ == "__main__":
     db.create_all()
