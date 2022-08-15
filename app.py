@@ -3,7 +3,7 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = '/Users/fgalvan/Library/ApplicationSupport/Postgres/var-14/postgresql.conf'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://fgalvan:test123@localhost/to_dodb'
 
 db = SQLAlchemy(app)
 
@@ -15,7 +15,11 @@ class To_Do(db.Model):
 
 @app.route('/')
 def index():
-    return render_template('base.html')
+    todo_list = To_Do.query.all()
+    print(todo_list)
+    return render_template('base.html', todo_list = todo_list)
 
 if __name__ == "__main__":
+    db.create_all()
+
     app.run(debug=True)
