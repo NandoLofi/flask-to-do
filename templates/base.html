@@ -19,7 +19,7 @@
 
     </form>
     {% for todo in todo_list %}
-        <p> {{ todo.id }} | {{ todo.title }} </p>
+        <p> {{ todo.title }} </p>
 
         {% if todo.complete == False %}
             <span> Not Complete </span>
